@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Report Generator</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+    
+</head>
+<body>
+
+    <div class="container">
+        <h1 class="text-center">🚀 Project Report Generator</h1>
+        
+        <!-- Report Type Selector -->
+        <div class="report-type-selector">
+            <button class="report-type-btn active" onclick="showReportType('college')">Project Report</button>
+            <button class="report-type-btn" onclick="showReportType('school')">Synopsis</button>
+        </div>
+        
+        <!-- Status Messages -->
+        {% if error %}
+        <div class="alert alert-danger alert-dismissible fade show">
+            {{ error }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        {% endif %}
+
+        <!-- College Report Form -->
+        <form method="POST" enctype="multipart/form-data" id="collegeReportForm" class="needs-validation report-section active" novalidate>
+            <input type="hidden" name="report_type" value="college">
+            
+            <!-- Success Message for College Reports -->
+            {% if success and report_type == 'college' %}
+            <div class="alert alert-success alert-dismissible fade show" id="successAlert">
+                <strong>✅ Project Report generated successfully!</strong>
+                <div class="d-flex flex-column mt-2">
+                    <div class="btn-group" role="group">
+                        <a href="{{ url_for('download_file', filename=filename, format='docx') }}" 
+                        class="btn btn-success">
+                        Download Word Report
+                        </a>
+                        <a href="{{ url_for('download_file', filename=filename, format='pdf') }}" 
+                        class="btn btn-danger">
+                        Download PDF Report
+                        </a>
+                    </div>
+                    <button class="btn btn-outline-secondary mt-2" onclick="resetAllForms(); document.getElementById('successAlert').remove();">
+                        Create New Report
+                    </button>
+                </div>
+            </div>
+            {% endif %}
+            
+            <!-- Basic Information -->
+            <div class="mb-4">
+                <h3 class="text-primary mb-3">Project Report Information</h3>
+                <div class="row g-3">
+                    <div class="col-md-12">
+                        <input type="text" class="form-control form-control-lg" name="topic" 
+                               placeholder="Project Topic" required value="{{ request.form.topic }}">
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" name="submitted_by" 
+                               placeholder="Submitted By" required value="{{ request.form.submitted_by }}">
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" name="submitted_to" 
+                               placeholder="Submitted To" required value="{{ request.form.submitted_to }}">
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" name="designate" 
+                               placeholder="Designation of submitted to" required value="{{ request.form.designate }}">
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" name="semester_name" 
+                               placeholder="Semester/Year" required value="{{ request.form.semester_name }}">
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="course_name" 
+                               placeholder="Course name" required value="{{ request.form.course_name}}">
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="institute_name" 
+                               placeholder="Institute name" required value="{{ request.form.institute_name }}">
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="location" 
+                               placeholder="Affiliated university/Location" required value="{{ request.form.location }}">
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" name="department" 
+                               placeholder="Department" required value="{{ request.form.department }}">
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" name="enrollment" 
+                               placeholder="Roll_no." required value="{{ request.form.enrollment }}">
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Logo Search Section -->
+            <div class="mb-4">
+                <h3 class="text-primary mb-3">Institute Logo</h3>
+                <div class="row g-3">
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" id="logoSearchQuery" 
+                            placeholder="Search for your college logo (e.g., 'Delhi University logo')">
+                    </div>
+                    <div class="col-md-4">
+                        <button type="button" class="btn btn-primary w-100" onclick="searchLogo()">
+                            Search Logo
+                        </button>
+                    </div>
+                    <div class="col-12">
+                        <div id="logoSearchResults" class="row mt-3"></div>
+                    </div>
+                    <div class="col-12">
+                        <div id="selectedLogoPreview" class="text-center mt-3" style="display:none;">
+                            <h5>Selected Logos:</h5>
+                            <div id="selectedLogoContainer" class="d-flex flex-wrap justify-content-center"></div>
+                            <input type="hidden" name="college_logo_urls" id="collegeLogoUrls">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Report Sections -->
+            <div class="mb-4">
+                <h3 class="text-primary mb-3">Report Sections</h3>
+                
+                <div class="mb-3">
+                    <h5>Select Sections:</h5>
+                    <div class="row" style="color: black !important;">
+                        {% for section in ['Introduction', 'Objective', 'Problem Formulation', 
+                                          'Feasibility', 'DFD', 'Flowchart', 'Future Scope','Conclusion','Unique Features',
+                                          'Reference','Project Images', 'Code Screenshots'] %}
+                        <div class="col-md-6 mb-2">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="selected_sections" 
+                                       value="{{ section }}" id="college_section_{{ loop.index }}"
+                                       {% if section in request.form.getlist('selected_sections') %}checked{% endif %}
+                                       onchange="togglePredefinedSection(this, 'college')">
+                                <label class="form-check-label" for="college_section_{{ loop.index }}">
+                                    {{ section }}
+                                </label>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <h5>Custom Sections:</h5>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" id="college_custom_section_input" 
+                               placeholder="Section title">
+                        <button class="btn btn-outline-primary" type="button" onclick="addCustomSection('college')">
+                            Add Section
+                        </button>
+                    </div>
+                    <input type="hidden" name="custom_sections" id="college_custom_sections" 
+                           value="{{ request.form.custom_sections if request.form.custom_sections }}">
+                </div>
+
+                <div class="mb-3">
+                    <h5>Section Order:</h5>
+                    <p class="text-muted">Drag all sections to rearrange the content</p>
+                    <ul id="college_sortable" class="list-unstyled">
+                        {% if request.form.ordered_sections %}
+                            {% for section in request.form.ordered_sections.split(',') %}
+                                <li class="section-item" data-value="{{ section }}">
+                                    {{ section }}
+                                    <button type="button" class="remove-section" onclick="removeSection(this, 'college')">×</button>
+                                </li>
+                            {% endfor %}
+                        {% endif %}
+                    </ul>
+                    <input type="hidden" name="ordered_sections" id="college_ordered_sections" 
+                           value="{{ request.form.ordered_sections if request.form.ordered_sections else 'Introduction,Objective,Project Images,Code Screenshots' }}">
+                </div>
+            </div>
+
+            <!-- Image Upload Sections (hidden when not selected) -->
+            <div id="college_projectImagesContainer" class="file-upload-section" style="display: none;">
+                <h4 class="text-primary mb-3">📷 Project Images</h4>
+                <input type="file" class="form-control" name="project_images" id="college_project_images" 
+                       accept="image/*" multiple onchange="handleImageUpload(this, 'college', 'project')">
+                <div class="file-preview-container" id="college_project_images_preview">
+                    <div class="file-preview-item"></div>
+                </div>
+                <small class="text-muted">Upload project screenshots (max 5MB each, recommended width: 800px)</small>
+                <input type="hidden" name="selected_project_images" id="college_selected_project_images">
+                
+                <!-- Image Generation Option -->
+                <div class="generate-image-container mt-3">
+                    <h5 class="text-secondary">Or generate an image based on a prompt:</h5>
+                    <input type="text" class="form-control mb-2" id="college_generateImagePrompt" placeholder="Enter image prompt...">
+                    <button class="btn btn-outline-primary" type="button" 
+                            onclick="generateImage('college')">Generate Image</button>
+                    <div id="college_generatedImagePreview" class="mt-3" style="display: none;">
+                        <h6>Generated Image:</h6>
+                        <img id="college_generatedImage" class="img-fluid" src="" alt="Generated Image" style="max-width: 100%; height: auto;">
+                        <button class="btn btn-success btn-sm mt-2" type="button" 
+                                onclick="addGeneratedImageToProject('college')">Add to Project Images</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="college_codeScreenshotsContainer" class="file-upload-section" style="display: none;">
+                <h4 class="text-primary mb-3">💻 Code Screenshots</h4>
+                <input type="file" class="form-control" name="code_screenshots" id="college_code_screenshots" 
+                       accept="image/*" multiple onchange="handleImageUpload(this, 'college', 'code')">
+                <div class="file-preview-container" id="college_code_preview"></div>
+                <small class="text-muted">Upload code snippets (max 5MB each, recommended width: 800px)</small>
+                <input type="hidden" name="selected_code_images" id="college_selected_code_images">
+            </div>
+
+            <div class="d-grid">
+                <button type="submit" class="btn btn-primary btn-lg">
+                    ⚡ Generate Project Report
+                </button>
+            </div>
+        </form>
+
+        <!-- School Report Form -->
+        <form method="POST" enctype="multipart/form-data" id="schoolReportForm" class="needs-validation report-section" novalidate>
+            <input type="hidden" name="report_type" value="school">
+            
+            <!-- Success Message for School Reports -->
+            {% if success and report_type == 'school' %}
+            <div class="alert alert-success alert-dismissible fade show" id="successAlert">
+                <strong>✅ Project Synopsis generated successfully!</strong>
+                <div class="d-flex flex-column mt-2">
+                    <div class="btn-group" role="group">
+                        <a href="{{ url_for('download_file', filename=filename, format='docx') }}" 
+                        class="btn btn-success">
+                        Download Word Synopsis
+                        </a>
+                        <a href="{{ url_for('download_file', filename=filename, format='pdf') }}" 
+                        class="btn btn-danger">
+                        Download PDF Synopsis
+                        </a>
+                    </div>
+                    <button class="btn btn-outline-secondary mt-2" onclick="resetAllForms(); document.getElementById('successAlert').remove();">
+                        Create New Synopsis
+                    </button>
+                </div>
+            </div>
+            {% endif %}
+            
+            <!-- Basic Information -->
+            <div class="mb-4">
+                <h3 class="text-primary mb-3">Synopsis Information</h3>
+                <div class="row g-3">
+                    <div class="col-md-12">
+                        <input type="text" class="form-control form-control-lg" name="topic" 
+                               placeholder="Project Topic" required value="{{ request.form.topic }}">
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" name="submitted_by" 
+                               placeholder="Submitted By" required value="{{ request.form.submitted_by }}">
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" name="submitted_to" 
+                               placeholder="Submitted To" required value="{{ request.form.submitted_to }}">
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" name="designate" 
+                               placeholder="Designation of submitted to" required value="{{ request.form.designate }}">
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" name="semester_name" 
+                               placeholder="Semester/Year" required value="{{ request.form.semester_name }}">
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="course_name" 
+                               placeholder="Course name" required value="{{ request.form.course_name}}">
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="institute_name" 
+                               placeholder="Institute name" required value="{{ request.form.institute_name }}">
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="location" 
+                               placeholder="Affiliated university/Location" required value="{{ request.form.location }}">
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" name="department" 
+                               placeholder="Department" required value="{{ request.form.department }}">
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" name="enrollment" 
+                               placeholder="Roll_no." required value="{{ request.form.enrollment }}">
+                    </div>
+                
+                </div>
+            </div>
+
+            <!-- Logo Search Section -->
+            <div class="mb-4">
+                <h3 class="text-primary mb-3">Institute Logo</h3>
+                <div class="row g-3">
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" id="schoolLogoSearchQuery" 
+                            placeholder="Search for your school logo (e.g., 'DPS logo')">
+                    </div>
+                    <div class="col-md-4">
+                        <button type="button" class="btn btn-primary w-100" onclick="searchSchoolLogo()">
+                            Search Logo
+                        </button>
+                    </div>
+                    <div class="col-12">
+                        <div id="schoolLogoSearchResults" class="row mt-3"></div>
+                    </div>
+                    <div class="col-12">
+                        <div id="selectedSchoolLogoPreview" class="text-center mt-3" style="display:none;">
+                            <h5>Selected Logos:</h5>
+                            <div id="selectedSchoolLogoContainer" class="d-flex flex-wrap justify-content-center"></div>
+                            <input type="hidden" name="school_logo_urls" id="schoolLogoUrls">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Report Sections -->
+            <div class="mb-4">
+                <h3 class="text-primary mb-3">Synopsis Sections</h3>
+                
+                <div class="mb-3">
+                    <h5>Select Sections:</h5>
+                    <div class="row" style="color: black !important;">
+                        {% for section in ['Introduction', 'Objective', 'Feasibility', 
+                                          'Conclusion', 'Unique Features','Limitations','DFD', 'Flowchart',
+                                          'Reference', 'Modules and Descriptions','Future Scope','Project Images'] %}
+                        <div class="col-md-6 mb-2">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="selected_sections" 
+                                       value="{{ section }}" id="school_section_{{ loop.index }}"
+                                       {% if section in request.form.getlist('selected_sections') %}checked{% endif %}
+                                       onchange="togglePredefinedSection(this, 'school')">
+                                <label class="form-check-label" for="school_section_{{ loop.index }}">
+                                    {{ section }}
+                                </label>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <h5>Custom Sections:</h5>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" id="school_custom_section_input" 
+                               placeholder="Section title">
+                        <button class="btn btn-outline-primary" type="button" onclick="addCustomSection('school')">
+                            Add Section
+                        </button>
+                    </div>
+                    <input type="hidden" name="custom_sections" id="school_custom_sections"
+                           value="{{ request.form.custom_sections if request.form.custom_sections }}">
+                </div>
+
+                <div class="mb-3">
+                    <h5>Section Order:</h5>
+                    <p class="text-muted">Drag all sections to rearrange contents</p>
+                    <ul id="school_sortable" class="list-unstyled">
+                        {% if request.form.ordered_sections %}
+                            {% for section in request.form.ordered_sections.split(',') %}
+                                <li class="section-item" data-value="{{ section }}">
+                                    {{ section }}
+                                    <button type="button" class="remove-section" onclick="removeSection(this, 'school')">×</button>
+                                </li>
+                            {% endfor %}
+                        {% endif %}
+                    </ul>
+                    <input type="hidden" name="ordered_sections" id="school_ordered_sections" 
+                           value="{{ request.form.ordered_sections if request.form.ordered_sections else 'Introduction,Objective,Project Images' }}">
+                </div>
+            </div>
+
+            <!-- Image Upload Sections (hidden when not selected) -->
+            <div id="school_projectImagesContainer" class="file-upload-section" style="display: none;">
+                <h4 class="text-primary mb-3">📷 Project Images</h4>
+                <input type="file" class="form-control" name="project_images" id="school_project_images" 
+                       accept="image/*" multiple onchange="handleImageUpload(this, 'school', 'project')">
+                <div class="file-preview-container" id="school_project_images_preview"></div>
+                <small class="text-muted">Upload project screenshots (max 5MB each, recommended width: 800px)</small>
+                <input type="hidden" name="selected_project_images" id="school_selected_project_images">
+                
+                <!-- Image Generation Option -->
+                <div class="generate-image-container mt-3">
+                    <h5 class="text-secondary">Or generate an image based on a prompt:</h5>
+                    <input type="text" class="form-control mb-2" id="school_generateImagePrompt" placeholder="Enter image prompt...">
+                    <button class="btn btn-outline-primary" type="button" 
+                            onclick="generateImage('school')">Generate Image</button>
+                    <div id="school_generatedImagePreview" class="mt-3" style="display: none;">
+                        <h6>Generated Image:</h6>
+                        <img id="school_generatedImage" class="img-fluid" src="" alt="Generated Image" style="max-width: 100%; height: auto;">
+                        <button class="btn btn-success btn-sm mt-2" type="button" 
+                                onclick="addGeneratedImageToProject('school')">Add to Project Images</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-grid">
+                <button type="submit" class="btn btn-primary btn-lg">
+                    ⚡ Generate Project Synopsis
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

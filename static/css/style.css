@@ -1,0 +1,734 @@
+/* 🌟 Vibrant Animated Gradient Background */
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(-60deg, #ff3d77, #ec82f6, #3bd1ff, #0fe87f);
+    background-size: 400% 400%;
+    color: #2d3436;
+    min-height: 100vh;
+    padding: 2rem 0;
+    margin: 0;
+    animation: gradientBG 12s ease infinite;
+    overflow-x: hidden;
+}
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* 🎡 Dynamic Floating Shapes Background */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(circle at 20% 30%, rgba(255,255,255,0.1) 0%, transparent 20%),
+        radial-gradient(circle at 80% 70%, rgba(255,255,255,0.1) 0%, transparent 20%),
+        radial-gradient(circle at 40% 80%, rgba(255,255,255,0.1) 0%, transparent 20%);
+    z-index: -1;
+    animation: float 25s infinite linear;
+}
+
+@keyframes float {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    25% { transform: translate(-5%, 5%) rotate(5deg); }
+    50% { transform: translate(5%, -5%) rotate(-5deg); }
+    75% { transform: translate(-5%, 5%) rotate(5deg); }
+    100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+/* 🧊 Futuristic Glass Container with Polygon Shape */
+.container {
+    background: rgba(255, 255, 255, 0.85);
+    padding: 2.5rem;
+    border-radius: 30px;
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.1),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.3);
+    animation: 
+        fadeIn 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+        floatContainer 8s ease-in-out infinite;
+    max-height: auto;
+    overflow-y: auto;
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    clip-path: polygon(
+        0% 15px, 15px 0%, 
+        calc(100% - 15px) 0%, 100% 15px, 
+        100% calc(100% - 15px), calc(100% - 15px) 100%, 
+        15px 100%, 0% calc(100% - 15px)
+    );
+    position: relative;
+    margin: 2rem auto;
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes floatContainer {
+    0%, 100% { transform: translateY(0) rotate(0.5deg); }
+    50% { transform: translateY(-10px) rotate(-0.5deg); }
+}
+
+.container::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, #ff3d77, #f5f790, #3bd1ff);
+    z-index: -1;
+    clip-path: polygon(
+        0% 15px, 15px 0%, 
+        calc(100% - 15px) 0%, 100% 15px, 
+        100% calc(100% - 15px), calc(100% - 15px) 100%, 
+        15px 100%, 0% calc(100% - 15px)
+    );
+    opacity: 0.7;
+    animation: borderGlow 6s linear infinite;
+}
+
+@keyframes borderGlow {
+    0% { opacity: 0.3; filter: blur(2px); }
+    50% { opacity: 0.7; filter: blur(4px); }
+    100% { opacity: 0.3; filter: blur(2px); }
+}
+
+.container:hover {
+    transform: translateY(-5px) scale(1.005);
+    box-shadow: 
+        0 12px 40px rgba(0, 0, 0, 0.15),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.4);
+}
+
+/* 🚀 Header with Animated Gradient Text */
+h1 {
+    background: linear-gradient(90deg, #ff3d77, #338aff, #3bd1ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 1.5rem;
+    font-weight: 800;
+    text-align: center;
+    font-size: 2.5rem;
+    position: relative;
+    display: inline-block;
+    padding: 0 1rem;
+    animation: gradientText 8s ease infinite;
+    background-size: 200% auto;
+}
+
+@keyframes gradientText {
+    0% { background-position: 0% center; }
+    50% { background-position: 100% center; }
+    100% { background-position: 0% center; }
+}
+
+h1::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 4px;
+    background: linear-gradient(90deg, #ff3d77, #338aff, #3bd1ff);
+    border-radius: 2px;
+    animation: underlinePulse 3s ease infinite;
+}
+
+@keyframes underlinePulse {
+    0%, 100% { width: 60%; opacity: 1; }
+    50% { width: 80%; opacity: 0.8; }
+}
+
+/* 🌀 File Upload Section with Geometric Pattern */
+.file-upload-section {
+    background: 
+        linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.1) 100%),
+        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40"><path fill="%23338aff" fill-opacity="0.05" d="M0 0h20v20H0V0zm20 20h20v20H20V20z"/></svg>');
+    border-radius: 20px;
+    padding: 2rem;
+    margin: 2rem 0;
+    border: none;
+    transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255,255,255,0.3);
+}
+
+.file-upload-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, transparent 48%, rgba(255,255,255,0.3) 50%, transparent 52%);
+    background-size: 200% 200%;
+    animation: shine 3s infinite linear;
+    pointer-events: none;
+}
+
+@keyframes shine {
+    0% { background-position: -100% -100%; }
+    100% { background-position: 100% 100%; }
+}
+
+.file-upload-section:hover {
+    transform: translateY(-5px) scale(1.01);
+    box-shadow: 
+        0 10px 25px rgba(51, 138, 255, 0.2),
+        inset 0 0 0 1px rgba(255,255,255,0.4);
+    background: 
+        linear-gradient(135deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.2) 100%),
+        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40"><path fill="%23338aff" fill-opacity="0.1" d="M0 0h20v20H0V0zm20 20h20v20H20V20z"/></svg>');
+}
+
+/* 📁 File Preview Items with Floating Effect */
+.file-preview-container {
+    max-height: 300px;
+    overflow-y: auto;
+    margin-top: 1.5rem;
+    scrollbar-width: thin;
+    scrollbar-color: #338aff rgba(255,255,255,0.3);
+    border-radius: 12px;
+    padding: 10px;
+    background: rgba(255,255,255,0.4);
+}
+
+.file-preview-container::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.file-preview-container::-webkit-scrollbar-thumb {
+    background: linear-gradient(to bottom, #ff3d77, #338aff);
+    border-radius: 4px;
+}
+
+.file-preview-container::-webkit-scrollbar-track {
+    background: rgba(255,255,255,0.2);
+    border-radius: 4px;
+}
+
+.file-preview-item {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    position: relative;
+    overflow: hidden;
+    border-left: 4px solid #338aff;
+}
+
+
+.file-preview-item img {
+    max-width: 80px;
+    max-height: 60px;
+    margin-right: 15px;
+    border-radius: 6px;
+    object-fit: cover;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    z-index: 1;
+}
+
+
+
+/* 🖼️ Image Generation Section with Floating Border */
+.generate-image-container {
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    transition: all 0.4s ease;
+}
+
+.generate-image-container::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, #ff3d77, #338aff, #3bd1ff);
+    z-index: -1;
+    border-radius: 18px;
+    opacity: 0.5;
+    filter: blur(5px);
+    animation: borderFlow 8s linear infinite;
+    background-size: 200% 200%;
+}
+
+@keyframes borderFlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.generate-image-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.generate-image-container h5 {
+    color: #338aff;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    position: relative;
+    display: inline-block;
+}
+
+.generate-image-container h5::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, #ff3d77, #338aff);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s ease;
+}
+
+.generate-image-container:hover h5::after {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+/* 🎨 Generated Image Preview with Floating Effect */
+#generatedImagePreview {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-top: 1.5rem;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    transition: all 0.4s ease;
+    border: 1px dashed rgba(51, 138, 255, 0.3);
+}
+
+#generatedImagePreview::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path fill="%23338aff" fill-opacity="0.03" d="M0 0h50v50H0V0zm50 50h50v50H50V50z"/></svg>');
+    opacity: 0.5;
+}
+
+#generatedImagePreview:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(51, 138, 255, 0.15);
+    border-color: rgba(51, 138, 255, 0.6);
+}
+
+#generatedImage {
+    border-radius: 8px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    border: 1px solid rgba(0,0,0,0.1);
+    max-height: 300px;
+    width: auto;
+    transition: all 0.4s ease;
+    position: relative;
+    z-index: 1;
+}
+
+#generatedImage:hover {
+    transform: scale(1.03);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+}
+
+/* 🧩 Sortable Sections with 3D Effect */
+#sortable {
+    min-height: 120px;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 16px;
+    padding: 1.5rem;
+    transition: all 0.4s ease;
+    box-shadow: 
+        inset 0 0 0 1px rgba(255,255,255,0.4),
+        0 5px 15px rgba(0,0,0,0.05);
+    position: relative;
+    overflow: hidden;
+}
+
+#sortable::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60"><path fill="%23338aff" fill-opacity="0.05" d="M0 0h30v30H0V0zm30 30h30v30H30V30z"/></svg>');
+    opacity: 0.5;
+}
+
+#sortable li {
+    background: rgba(255, 255, 255, 0.9);
+    margin: 0.75rem 0;
+    padding: 1.25rem;
+    border-radius: 12px;
+    color: #2d3436;
+    cursor: grab;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 
+        0 3px 6px rgba(0,0,0,0.1),
+        inset 0 0 0 1px rgba(255,255,255,0.8);
+    position: relative;
+    z-index: 1;
+    border-left: 4px solid #ff3d77;
+}
+
+#sortable li::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, rgba(255, 61, 119, 0.1), rgba(51, 138, 255, 0.1));
+    z-index: -1;
+    border-radius: 10px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+#sortable li:hover {
+    transform: translateY(-3px) scale(1.01);
+    box-shadow: 
+        0 8px 15px rgba(0,0,0,0.1),
+        inset 0 0 0 1px rgba(255,255,255,0.9);
+}
+
+#sortable li:hover::before {
+    opacity: 1;
+}
+
+#sortable li.ui-sortable-helper {
+    transform: scale(1.05) rotate(2deg);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.remove-section {
+    background: rgba(255, 61, 119, 0.1);
+    border: none;
+    color: #ff3d77;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin-left: 10px;
+    transition: all 0.3s ease;
+    font-weight: bold;
+}
+
+.remove-section:hover {
+    background: rgba(255, 61, 119, 0.8);
+    color: white;
+    transform: rotate(90deg) scale(1.1);
+}
+
+/* 🎚️ Report Type Selector with Glowing Tabs */
+.report-type-selector {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2.5rem;
+    position: relative;
+    background: rgba(255,255,255,0.2);
+    border-radius: 50px;
+    padding: 5px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255,255,255,0.3);
+}
+
+.report-type-btn {
+    padding: 0.8rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border: none;
+    background: transparent;
+    color: rgba(45, 52, 54, 0.7);
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    position: relative;
+    z-index: 1;
+    border-radius: 50px;
+    margin: 0 2px;
+}
+
+.report-type-btn.active {
+    color: white;
+    background: linear-gradient(45deg, #ff3d77, #338aff);
+    box-shadow: 0 5px 15px rgba(255, 61, 119, 0.3);
+}
+
+.report-type-btn:not(.active):hover {
+    color: #338aff;
+    transform: translateY(-2px);
+}
+
+/* ✨ Floating Action Button */
+.floating-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(45deg, #ff3d77, #338aff);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 5px 25px rgba(255, 61, 119, 0.4);
+    cursor: pointer;
+    z-index: 1000;
+    transition: all 0.3s ease;
+    font-size: 1.5rem;
+    animation: pulse 2s infinite;
+    border: none;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); box-shadow: 0 5px 25px rgba(255, 61, 119, 0.4); }
+    50% { transform: scale(1.1); box-shadow: 0 8px 30px rgba(255, 61, 119, 0.6); }
+    100% { transform: scale(1); box-shadow: 0 5px 25px rgba(255, 61, 119, 0.4); }
+}
+
+.floating-btn:hover {
+    transform: scale(1.1) rotate(90deg);
+    animation: none;
+}
+
+/* 🛠️ Utility Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* 🔄 Loading Spinner with Gradient */
+.loading-spinner {
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top: 3px solid #ff3d77;
+    border-right: 3px solid #338aff;
+    border-bottom: 3px solid #3bd1ff;
+    width: 24px;
+    height: 24px;
+    animation: spin 1.5s linear infinite;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* 🎯 Buttons with Floating Effect */
+.btn {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    border: none;
+    font-weight: 600;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    border-radius: 50px;
+    padding: 0.75rem 1.75rem;
+}
+
+.btn-outline-primary {
+    background: transparent;
+    color: #338aff;
+    box-shadow: inset 0 0 0 2px #338aff;
+}
+
+.btn-outline-primary:hover {
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 
+        inset 0 0 0 2px #338aff,
+        0 8px 20px rgba(51, 138, 255, 0.3);
+    background: linear-gradient(45deg, #338aff, #3bd1ff);
+}
+
+.btn-success {
+    background: linear-gradient(45deg, #2afc98, #28a745);
+    color: white;
+}
+
+.btn-success:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(40, 167, 69, 0.4);
+    background: linear-gradient(45deg, #28a745, #2afc98);
+}
+
+/* 📱 Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        width: 95%;
+        padding: 1.5rem;
+        margin: 1rem auto;
+        clip-path: none;
+        border-radius: 20px;
+    }
+    
+    .container::before {
+        display: none;
+    }
+    
+    h1 {
+        font-size: 2rem;
+    }
+    
+    .report-type-selector {
+        flex-direction: column;
+        border-radius: 20px;
+    }
+    
+    .report-type-btn {
+        border-radius: 20px;
+        margin: 2px 0;
+    }
+    
+    .file-upload-section, .generate-image-container {
+        padding: 1.5rem;
+    }
+    
+    .floating-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+        bottom: 20px;
+        right: 20px;
+    }
+}
+
+/* 🎭 Hidden Sections with Slide Animation */
+.report-section {
+    display: none;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.report-section.active {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+    animation: fadeIn 0.8s ease-out;
+}
+
+/* ✨ Tooltip Styles */
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 160px;
+    background: linear-gradient(45deg, #ff3d77, #338aff);
+    color: #fff;
+    text-align: center;
+    border-radius: 12px;
+    padding: 8px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 0.9rem;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    backdrop-filter: blur(5px);
+}
+
+.tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #338aff transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* 🎇 Input Fields with Floating Label Effect */
+.input-group {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.input-group input, .input-group textarea {
+    background: rgba(255,255,255,0.9);
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 12px;
+    padding: 1rem;
+    width: 100%;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.input-group input:focus, .input-group textarea:focus {
+    outline: none;
+    border-color: #338aff;
+    box-shadow: 0 0 0 2px rgba(51, 138, 255, 0.2);
+}
+
+.input-group label {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    color: rgba(0,0,0,0.5);
+    transition: all 0.3s ease;
+    pointer-events: none;
+}
+
+.input-group input:focus + label, 
+.input-group input:not(:placeholder-shown) + label,
+.input-group textarea:focus + label,
+.input-group textarea:not(:placeholder-shown) + label {
+    top: -0.8rem;
+    left: 0.8rem;
+    font-size: 0.8rem;
+    background: white;
+    padding: 0 0.5rem;
+    color: #338aff;
+    border-radius: 4px;
+}
+
